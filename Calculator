@@ -1,0 +1,221 @@
+#imports classes from tkinter 
+#(tkinter inherently is mostly made of classes).
+from tkinter import *
+from tkinter import ttk
+
+#instantiates a tkinter root object - I call this instance "window".
+window = Tk()
+
+
+#This method is used to avoid any instantiated menu widgets 
+#turning into pop-up widgets when clicked on,
+#which is a behavior I do not want.
+window.option_add('*tearOff', FALSE)
+
+
+#This is the "menu" widget at the top of the window,
+# and all the custom instantiated "menu" sub-widgets
+#that populate the "menu" widget.
+win = window
+menubar = Menu(win)
+win['menu'] = menubar
+
+
+#"File" menu
+menu_file = Menu(menubar)
+
+menubar.add_cascade(menu = menu_file, label = 'File')
+
+menu_file.add_command(label = "Open...")
+
+menu_file.add_command(label = "Close")
+
+
+#"Edit" menu
+menu_edit = Menu(menubar)
+
+menubar.add_cascade(menu = menu_edit, label = 'Edit')
+
+
+#"Murdersplosiontools" menu
+menu_murdersplosiontools = Menu(menubar)
+
+menubar.add_cascade(menu = menu_edit, label = 'murdersplosiontools')
+
+
+#"Options" menu
+menu_options = Menu(menubar)
+
+menubar.add_cascade(menu = menu_edit, label = 'Options')
+
+
+#"Help" menu
+menu_help = Menu(menubar)
+
+menubar.add_cascade(menu = menu_edit, label = 'Help')
+
+
+#Window title located at top window border.
+win.title("CalculonThePrequel")
+
+
+#Size of the window - by default, instantiated
+#at an arbitrary size 320 by 140.
+#
+#The geometry method of your instantiated window takes its argument
+#in really specific formats - refer to the tkinter docs for
+#further explanation.
+win.geometry("310x130")
+win.configure(background = "light grey") 
+#Below are the "behaviors" of widgets such as the "button" widgets,
+#that perform some command when clicked on.
+#These behaviors are organized in this part of the namespace
+#for easy editing.
+
+#Button Behaviors implemented as functions.
+expression = ""
+calculatorResult = StringVar()
+def press(num): 
+	# point out the global expression variable 
+	global expression 
+
+	# concatenation of string 
+	expression = expression + str(num) 
+
+	# update the expression by using set method 
+	calculatorResult.set(expression) 
+
+
+
+def clear(): 
+	global expression
+	expression = "" 
+	calculatorResult.set("")
+
+def equalpress(): 
+	# Try and except statement is used 
+	# for handling the errors like zero 
+	# division error etc. 
+
+	# Put that code inside the try block 
+	# which may generate the error 
+    try: 
+        global expression 
+# eval function evaluate the expression 
+# and str function convert the result 
+# into string 
+        total = str(eval(expression)) 
+        calculatorResult.set(total) 
+# initialze the expression variable 
+# by empty string 
+        expression = "" 
+# if error is generate then handle 
+# by the except block 
+    except: 
+        calculatorResult.set(" error ") 
+        expression = "" 
+	
+#Below are the instantiated widgets that are created.
+#Their coordinates will be listed in a "Geometry Management"
+#in the code.
+
+#Operator buttons
+additionButton = ttk.Button(window, text = "+", command = lambda: press("+"))
+
+subtractionButton = ttk.Button(window, text = "-", command = lambda: press("-"))
+
+multiplicationButton = ttk.Button(window, text = "*", command = lambda: press("*"))
+
+decimalButton = ttk.Button(window, text = ".", command = lambda: press("."))
+
+divisionButton = ttk.Button(window, text = "/", command = lambda: press("/"))
+
+#"Meta" buttons
+clearButton = ttk.Button(window, text = "C", command = clear)
+
+enterButton = ttk.Button(window, text = "=", command = equalpress)
+
+
+#"Numeric" buttons
+zeroNumericButton = ttk.Button(window, text = "0", command = lambda: press(0))
+
+oneNumericButton = ttk.Button(window, text = "1", command = lambda: press(1))
+
+twoNumericButton = ttk.Button(window, text = "2", command = lambda: press(2))
+
+threeNumericButton = ttk.Button(window, text = "3", command = lambda: press(3))
+
+fourNumericButton = ttk.Button(window, text = "4", command = lambda: press(4))
+
+fiveNumericButton = ttk.Button(window, text = "5", command = lambda: press(5))
+
+sixNumericButton = ttk.Button(window, text = "6", command = lambda: press(6))
+
+sevenNumericButton = ttk.Button(window, text = "7", command = lambda: press(7))
+
+eightNumericButton = ttk.Button(window, text = "8", command = lambda: press(8))
+
+nineNumericButton = ttk.Button(window, text = "9", command = lambda: press(9))
+
+
+#"calculatorEntryWidget" Entry widget.
+
+
+calculatorEntryWidget = ttk.Entry(window, textvariable = calculatorResult, width = 37)
+
+#calculatorInput = StringVar()
+#inputCalculatorEntry = ttk.Entry(window, textvariable = calculatorInput)
+
+
+# ".grid"" geometry management section. Listing each widget
+#relative to eachother.
+
+#"NumericButtons in the grid.
+zeroNumericButton.grid(column = 0,row = 6)
+
+oneNumericButton.grid(column = 0, row = 5)
+
+twoNumericButton.grid(column = 1, row = 5)
+
+threeNumericButton.grid(column = 2, row = 5)
+
+fourNumericButton.grid(column = 0, row = 4)
+
+fiveNumericButton.grid(column = 1, row = 4)
+
+sixNumericButton.grid(column = 2, row = 4)
+
+sevenNumericButton.grid(column = 0, row = 3)
+
+eightNumericButton.grid(column = 1, row = 3)
+
+nineNumericButton.grid(column = 2, row = 3)
+
+
+#Operator buttons in the grid.
+enterButton.grid(column = 1, row = 6)
+
+additionButton.grid(column = 3, row = 4)
+
+subtractionButton.grid(column = 3, row = 3)
+
+multiplicationButton.grid(column = 3, row = 2)
+
+divisionButton.grid(column = 3, row = 6)
+
+decimalButton.grid(column = 3, row = 5)
+
+#"Meta" buttons
+clearButton.grid(column = 2, row = 6)
+
+
+
+
+#Entry widgets
+
+calculatorEntryWidget.grid(column = 0, row = 2, columnspan = 3)
+
+
+
+
+window.mainloop()
